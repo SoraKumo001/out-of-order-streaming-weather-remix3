@@ -11,13 +11,25 @@ const Render = (
   </RouterProvider>
 );
 
-if (document.body) {
+const render = () => {
+  const ssrData = document.getElementById("__REMIX3_SSR__")?.textContent;
+  if (ssrData) {
+    Object.defineProperty(globalThis, "__REMIX3_SSR_DATA__", {
+      value: ssrData,
+      configurable: true,
+    });
+  }
+  document.body.replaceChildren();
   createRoot(document.body).render(Render);
+};
+
+if (document.body) {
+  render();
 } else {
   window.addEventListener(
     "DOMContentLoaded",
     () => {
-      createRoot(document.body).render(Render);
+      render();
     },
     { once: true }
   );

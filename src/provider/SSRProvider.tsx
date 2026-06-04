@@ -1,7 +1,8 @@
-import { Frame, type Handle, type RemixNode } from "remix/ui";
+import { type Handle, type RemixNode } from "remix/ui";
 
 const isServer = typeof window === "undefined";
 const SSR_DATA_NAME = "__REMIX3_SSR__";
+const SSR_DATA_GLOBAL_NAME = "__REMIX3_SSR_DATA__";
 
 type SSRResult<T = unknown> = {
   state: "idle" | "loading" | "finished";
@@ -10,11 +11,13 @@ type SSRResult<T = unknown> = {
 
 type SSRState<T = unknown> = SSRResult<T> & {
   children: RemixNode;
+  id: string;
   promise: Promise<T>;
 };
 
 export type SSRProps = {
   states: Record<string, SSRState>;
+  nextId: number;
 };
 
 export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: RemixNode }, SSRProps>) {
@@ -29,17 +32,25 @@ export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: Remix
       handle.context.set(
         storage ?? {
           states: {},
+          nextId: 0,
         }
       );
     } else {
+      const globalData = (globalThis as Record<string, unknown>)[
+        SSR_DATA_GLOBAL_NAME
+      ];
       const node = document.getElementById(SSR_DATA_NAME);
-      const states = JSON.parse(node?.innerText ?? "{}");
+      const states = JSON.parse(
+        typeof globalData === "string" ? globalData : node?.innerText ?? "{}"
+      );
       handle.context.set(
         storage ?? {
+          nextId: 0,
           states: Object.fromEntries(
             Object.entries(states).map(([key, v]) => [
               key,
               {
+                id: key,
                 state: "finished",
                 promise: Promise.resolve(v),
                 value: v as any,
@@ -53,7 +64,6 @@ export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: Remix
     return (
       <>
         {children}
-        {isServer && <Frame src="ssr-data:" />}
       </>
     );
   };
@@ -90,6 +100,7 @@ export function SSRFetch<T>(handle: Handle) {
     if (!context.states[frameName]) {
       const promise = action();
       const state: SSRState<T> = {
+        id: `ssr-${context.nextId++}`,
         promise,
         state: "loading",
         value: undefined,
@@ -103,7 +114,13 @@ export function SSRFetch<T>(handle: Handle) {
       });
     }
     if (isServer) {
-      return <Frame src={frameName} fallback={<div>Loading...</div>} />;
+      const state = context.states[frameName];
+      return (
+        <div
+          data-ssr-frame={state.id}
+          innerHTML={`<?start name="${state.id}"><div>Loading...</div><?end>`}
+        />
+      );
     } else {
       const state = context.states[frameName];
       return (

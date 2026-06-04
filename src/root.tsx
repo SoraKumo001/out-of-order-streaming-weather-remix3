@@ -2,7 +2,7 @@ import type { Handle } from "remix/ui";
 import { App } from "./App";
 import css from "./index.css?inline";
 
-export function Layout(handle: Handle) {
+export function Layout(_handle: Handle) {
   return () => (
     <html lang="ja">
       <head>
