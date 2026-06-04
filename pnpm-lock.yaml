@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@remix-run/ui': 0.2.0
+  '@remix-run/ui': 0.3.0
 
 importers:
 
@@ -14,6 +14,9 @@ importers:
       '@remix-run/route-pattern':
         specifier: 0.15.0
         version: 0.15.0
+      '@remix-run/ui':
+        specifier: 0.3.0
+        version: 0.3.0
       hono:
         specifier: 4.10.4
         version: 4.10.4
@@ -1285,8 +1288,8 @@ packages:
       playwright:
         optional: true
 
-  '@remix-run/ui@0.2.0':
-    resolution: {integrity: sha512-KSqtZGRZVgGjX3uEsdBuIHElWcgVi6HS6QnIMrpAcuh/fDxceGwNyKaskujtTU4BQmm+PClYyVfkeNx2l+BaCg==}
+  '@remix-run/ui@0.3.0':
+    resolution: {integrity: sha512-5zWmsnrls7UPioYg5vRNK3YQam5O3GGZBPONgi50f1Si3QPIdjNQvOEN2Qj1TcY3ehtLcsGgtBbba6AsXRR85A==}
 
   '@rolldown/binding-android-arm64@1.0.0-beta.53':
     resolution: {integrity: sha512-Ok9V8o7o6YfSdTTYA/uHH30r3YtOxLD6G3wih/U9DO0ucBBFq8WPt/DslU53OgfteLRHITZny9N/qCUxMf9kjQ==}
@@ -2785,7 +2788,7 @@ snapshots:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  '@remix-run/ui@0.2.0':
+  '@remix-run/ui@0.3.0':
     dependencies:
       '@types/dom-navigation': 1.0.7
 
@@ -3332,7 +3335,7 @@ snapshots:
       '@remix-run/tar-parser': 0.7.1
       '@remix-run/terminal': 0.1.1
       '@remix-run/test': 0.4.2(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
-      '@remix-run/ui': 0.2.0
+      '@remix-run/ui': 0.3.0
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'

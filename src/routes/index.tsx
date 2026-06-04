@@ -1,4 +1,4 @@
-import { type Handle } from "remix/ui";
+import { type Handle } from "@remix-run/ui";
 import { SSRFetch, useSSR } from "../provider/SSRProvider";
 import { Link } from "../provider/RouterProvider";
 

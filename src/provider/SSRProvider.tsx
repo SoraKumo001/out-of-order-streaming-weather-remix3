@@ -1,4 +1,4 @@
-import { type Handle, type RemixNode } from "remix/ui";
+import { type Handle, type RemixNode } from "@remix-run/ui";
 
 const isServer = typeof window === "undefined";
 const SSR_DATA_NAME = "__REMIX3_SSR__";

@@ -1,4 +1,4 @@
-import type { Handle } from "remix/ui";
+import type { Handle } from "@remix-run/ui";
 import { App } from "./App";
 import css from "./index.css?inline";
 

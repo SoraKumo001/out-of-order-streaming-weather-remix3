@@ -1,4 +1,4 @@
-import { renderToString } from "remix/ui/server";
+import { renderToString } from "@remix-run/ui/server";
 import { Layout } from "./root";
 import {
   SSRData,

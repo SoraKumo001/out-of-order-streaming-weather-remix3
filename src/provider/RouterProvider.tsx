@@ -1,4 +1,4 @@
-import { type Handle, on, type RemixNode } from "remix/ui";
+import { type Handle, on, type RemixNode } from "@remix-run/ui";
 import { RoutePattern, type RouteMatch } from "@remix-run/route-pattern";
 import { route } from "virtual:routes";
 
@@ -31,7 +31,15 @@ export function RouterProvider(
       removeEventListener("popstate", handlePopState);
     });
   }
-  return ({ url, value, children }: { url?: string; value?: RouterContext; children: RemixNode }) => {
+  return ({
+    url,
+    value,
+    children,
+  }: {
+    url?: string;
+    value?: RouterContext;
+    children?: RemixNode;
+  } = {}) => {
     if (value) {
       handle.context.set(value);
       return <>{children}</>;
@@ -73,7 +81,17 @@ export const useParams = <T extends Record<string, unknown>>(
 
 export function Link(handle: Handle) {
   const navigate = useNavigate(handle);
-  return ({ to, children, className }: { to: string; children: RemixNode; className?: string }) => {
+  return ({
+    to,
+    children,
+    className,
+  }: {
+    to?: string;
+    children?: RemixNode;
+    className?: string;
+  } = {}) => {
+    if (!to) return <>{children}</>;
+
     return (
       <a
         href={to}

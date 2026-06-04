@@ -7,7 +7,7 @@ export default defineConfig(({ isSsrBuild }) => {
   return {
     esbuild: {
       jsx: "automatic",
-      jsxImportSource: "remix/ui",
+      jsxImportSource: "@remix-run/ui",
     },
     ssr: {
       noExternal: true,
