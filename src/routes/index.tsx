@@ -24,8 +24,12 @@ interface Area {
 export default function (_handle: Handle) {
   return () => (
     <div className="max-w-xl mx-auto my-8 p-6 bg-white rounded-lg shadow">
+      <div>
+        Please enable
+        `chrome://flags/#enable-experimental-web-platform-features`
+      </div>
       <h1 className="text-2xl font-bold mb-6 text-indigo-900 border-b pb-2">
-        JS不要の順不同ストリーミング天気予報 (Remix 3)
+        JS不要の順不同ストリーミング天気予報 (Remix 3){" "}
       </h1>
       <SSRFetch
         name="area-list"
