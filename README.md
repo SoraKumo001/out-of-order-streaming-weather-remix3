@@ -1,5 +1,7 @@
 # Remix 3 + Declarative Partial Updates 天気予報デモ
 
+Demo: https://out-of-order-streaming-weather3.mofon001.workers.dev/
+
 Remix 3 (`remix/ui`) の VDOM と、Chrome 系ブラウザの実験的機能 **Declarative Partial Updates (DPU)** を組み合わせた、JavaScript なしでも初期 SSR の非同期部分更新を体験できるデモです。
 
 Cloudflare Workers 上で SSR HTML をストリーミングし、初期チャンクでは `Loading...` を即座に表示します。データ取得が完了すると、後続チャンクで `<template for="...">` を流し、DPU 対応ブラウザが `<?start ... ?>` で囲まれた領域を JavaScript なしで置換します。
@@ -32,7 +34,9 @@ sequenceDiagram
 代わりに、DPU 用の placeholder を直接出力します。
 
 ```html
-<?start name="ssr-0"><div>Loading...</div><?end>
+<?start name="ssr-0">
+<div>Loading...</div>
+<?end>
 ```
 
 クライアント側では、`__REMIX3_SSR__` に保存された SSR データを読んで `finished` 状態として再描画します。

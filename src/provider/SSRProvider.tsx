@@ -21,13 +21,8 @@ export type SSRProps = {
 };
 
 export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: RemixNode }, SSRProps>) {
-  return ({
-    storage,
-    children,
-  }: {
-    storage?: SSRProps;
-    children: RemixNode;
-  }) => {
+  return () => {
+    const { storage, children } = handle.props;
     if (isServer) {
       handle.context.set(
         storage ?? {
@@ -70,36 +65,28 @@ export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: Remix
 }
 
 export function SSRData(handle: Handle<{ value: unknown; state: "idle" | "loading" | "finished"; children: RemixNode }, SSRResult>) {
-  return ({
-    value,
-    state,
-    children,
-  }: {
-    value: unknown;
-    state: "idle" | "loading" | "finished";
-    children: RemixNode;
-  }) => {
+  return () => {
+    const { value, state, children } = handle.props;
     handle.context.set({ value, state });
     return children;
   };
 }
 
-export function SSRFetch<T>(handle: Handle) {
-  return ({
-    name,
-    action,
-    children,
-  }: {
-    name: string;
-    action: () => Promise<T>;
-    children: RemixNode;
-  }) => {
+type SSRFetchProps<T = unknown> = {
+  name: string;
+  action: () => Promise<T>;
+  children: RemixNode;
+};
+
+export function SSRFetch(handle: Handle<SSRFetchProps>) {
+  return () => {
+    const { name, action, children } = handle.props;
     const context = handle.context.get(SSRProvider);
     if (!context) return undefined;
     const frameName = `ssr:${name}`;
     if (!context.states[frameName]) {
       const promise = action();
-      const state: SSRState<T> = {
+      const state: SSRState = {
         id: `ssr-${context.nextId++}`,
         promise,
         state: "loading",

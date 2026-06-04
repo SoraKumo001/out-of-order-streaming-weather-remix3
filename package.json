@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build --ssr && vite build",
-    "start": "pnpm run build && wrangler dev --remote",
+    "start": "pnpm run build && wrangler dev",
     "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
@@ -23,10 +23,5 @@
     "typescript": "~5.9.3",
     "vite": "npm:rolldown-vite@latest",
     "wrangler": "^4.46.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "@remix-run/ui": "0.3.0"
-    }
   }
 }

@@ -31,15 +31,8 @@ export function RouterProvider(
       removeEventListener("popstate", handlePopState);
     });
   }
-  return ({
-    url,
-    value,
-    children,
-  }: {
-    url?: string;
-    value?: RouterContext;
-    children?: RemixNode;
-  } = {}) => {
+  return () => {
+    const { url, value, children } = handle.props;
     if (value) {
       handle.context.set(value);
       return <>{children}</>;
@@ -79,18 +72,16 @@ export const useParams = <T extends Record<string, unknown>>(
   return p.params as T;
 };
 
-export function Link(handle: Handle) {
+type LinkProps = {
+  to: string;
+  children?: RemixNode;
+  className?: string;
+};
+
+export function Link(handle: Handle<LinkProps>) {
   const navigate = useNavigate(handle);
-  return ({
-    to,
-    children,
-    className,
-  }: {
-    to?: string;
-    children?: RemixNode;
-    className?: string;
-  } = {}) => {
-    if (!to) return <>{children}</>;
+  return () => {
+    const { to, children, className } = handle.props;
 
     return (
       <a
