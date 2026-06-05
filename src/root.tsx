@@ -20,7 +20,9 @@ export function Layout(_handle: Handle) {
         <title>Remix 3 + Declarative Partial Updates</title>
       </head>
       <body class="bg-gray-100 text-gray-900 font-sans min-h-screen">
-        <App />
+        <div id="app">
+          <App />
+        </div>
       </body>
     </html>
   );

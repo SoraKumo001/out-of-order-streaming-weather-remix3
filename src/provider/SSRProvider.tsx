@@ -20,7 +20,9 @@ export type SSRProps = {
   nextId: number;
 };
 
-export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: RemixNode }, SSRProps>) {
+export function SSRProvider(
+  handle: Handle<{ storage?: SSRProps; children: RemixNode }, SSRProps>,
+) {
   return () => {
     const { storage, children } = handle.props;
     if (isServer) {
@@ -28,7 +30,7 @@ export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: Remix
         storage ?? {
           states: {},
           nextId: 0,
-        }
+        },
       );
     } else {
       const globalData = (globalThis as Record<string, unknown>)[
@@ -36,7 +38,7 @@ export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: Remix
       ];
       const node = document.getElementById(SSR_DATA_NAME);
       const states = JSON.parse(
-        typeof globalData === "string" ? globalData : node?.innerText ?? "{}"
+        typeof globalData === "string" ? globalData : (node?.innerText ?? "{}"),
       );
       handle.context.set(
         storage ?? {
@@ -51,20 +53,25 @@ export function SSRProvider(handle: Handle<{ storage?: SSRProps; children: Remix
                 value: v as any,
                 children: undefined,
               },
-            ])
+            ]),
           ),
-        }
+        },
       );
     }
-    return (
-      <>
-        {children}
-      </>
-    );
+    return <>{children}</>;
   };
 }
 
-export function SSRData(handle: Handle<{ value: unknown; state: "idle" | "loading" | "finished"; children: RemixNode }, SSRResult>) {
+export function SSRData(
+  handle: Handle<
+    {
+      value: unknown;
+      state: "idle" | "loading" | "finished";
+      children: RemixNode;
+    },
+    SSRResult
+  >,
+) {
   return () => {
     const { value, state, children } = handle.props;
     handle.context.set({ value, state });
@@ -126,7 +133,7 @@ export const useSSR = <T,>(inst: Handle) => {
 export const resolveFrame = async (
   src: string,
   states: Record<string, SSRState>,
-  render: (node: RemixNode) => Promise<string> | string
+  render: (node: RemixNode) => Promise<string> | string,
 ): Promise<string> => {
   if (src === "ssr-data:") {
     let length = 0;
@@ -148,6 +155,6 @@ export const resolveFrame = async (
   return render(
     <SSRData value={value} state={state.state}>
       {children}
-    </SSRData>
+    </SSRData>,
   );
 };

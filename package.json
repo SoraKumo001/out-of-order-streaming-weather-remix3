@@ -23,5 +23,9 @@
     "typescript": "~5.9.3",
     "vite": "npm:rolldown-vite@latest",
     "wrangler": "^4.46.0"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/SoraKumo001/out-of-order-streaming-weather-remix3",
+  "author": "SoraKumo <info@croud.jp>",
+  "license": "MIT"
 }
